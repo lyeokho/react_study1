@@ -2,6 +2,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import Detail from './Detail';
 
         //컨포넌트명
 function App() {
@@ -9,10 +10,12 @@ function App() {
   //uesXXX :리액트 내장함수 리액트훅 이라고도 부른다.
   const[title,setTitle]=useState('알림창');  
   const[bordTitle,setBoredTitle]=useState(['react', 'html', 'css']);
-
+  
   const[like, setLike]=useState(0);
 
-  function change(){
+  const[show,serShow]=useState(false);
+
+  function change(){   //좋아요 수 늘리기
     setLike(like+1);
 
   }
@@ -28,7 +31,7 @@ function App() {
       }}>제목 변경</button>
 
 
-    <div className='list'>
+    <div className='list'>         {/*좋아요 수 늘리기 기능*/}
       <h3>{bordTitle[0]}<button onClick={change}>좋아요</button>{like}</h3>
       <p>2025-7-16</p>    
     </div>
@@ -38,11 +41,22 @@ function App() {
       <p>2025-7-16</p>    
     </div>
 
-    <div className='list'>
+    <div className='list'>   
       <h3>{bordTitle[2]}</h3>
       <p>2025-7-16</p>    
     </div>
+          
+      <button onClick={()=>{    //누르면 첫번째 게시물 제목 변경하기
+        let _changeTitle=[...bordTitle];  //...은 배열방을 깨주는 기능
+        _changeTitle[0]='java';           //그리고 0번을 변경
+        setBoredTitle(_changeTitle);
+      }}>첫번째 게시물 제목 바꾸기</button>
 
+
+      { show ? <Detail/>:''}  
+     
+ 
+      
 
     </div>
 
