@@ -9,3 +9,12 @@
   background: black;
   padding: 15px;
 }
+
+.list{
+  padding-left: 20px;
+  border-bottom: 1px solid lavender;
+}
+
+.list>h3, .list>p{
+
+}
