@@ -8,12 +8,15 @@ import Detail from './Detail';
 function App() {
   // const[변수명,변경함수]=useState(초기값); 리액트 전용변수//화면 변경 시 제목 변경되게 
   //uesXXX :리액트 내장함수 리액트훅 이라고도 부른다.
-  const[title,setTitle]=useState('알림창');  
-  const[bordTitle,setBoredTitle]=useState(['react', 'html', 'css']);
-  
-  const[like, setLike]=useState(0);
 
-  const[show,serShow]=useState(false);
+  const[title,setTitle]=useState('알림창');  
+  const[boardTitle,setBoardTitle]=useState(['react', 'html', 'css']);
+
+  
+  const[like, setLike]=useState([0,0,0]);
+  const[show,setShow]=useState(false);
+
+  const[titleIndex,setTitleIndex]=useState(0);
 
   function change(){   //좋아요 수 늘리기
     setLike(like+1);
@@ -23,6 +26,7 @@ function App() {
   return (
     
     <div className='APP'>
+
       <div className='nav'>
         <h2>{title}</h2>
       </div>
@@ -30,33 +34,44 @@ function App() {
         setTitle('게시판');
       }}>제목 변경</button>
 
+      {               //변수명
+        boardTitle.map((title,i)=>{
+          return(                  //key설정해야 콘솔에 오류가 안난다       
+            <div className='list' key={i}> 
+            <h3 onClick={()=>{
+              setShow(!show);
+              setTitleIndex(i);
+            }}>{title}<button onClick={(event)=>{   //좋아요 늘리기
+              event.stopPropagation();   //부모세대 작업까지 작업되는 버블링 방지용 이벤트
+              let _like=[...like];  
+              _like[i]=_like[i]+1;
+              setLike(_like);
+            }}>좋아요</button>{like[i]}</h3>
+            <p>2025-7-16</p>    
+            </div>
+          )
+        })
+      }
 
-    <div className='list'>         {/*좋아요 수 늘리기 기능*/}
+    {/* <div className='list'>       
       <h3>{bordTitle[0]}<button onClick={change}>좋아요</button>{like}</h3>
       <p>2025-7-16</p>    
-    </div>
+    </div> */}
 
-    <div className='list'>
-      <h3>{bordTitle[1]}</h3>
-      <p>2025-7-16</p>    
-    </div>
-
-    <div className='list'>   
-      <h3>{bordTitle[2]}</h3>
-      <p>2025-7-16</p>    
-    </div>
           
       <button onClick={()=>{    //누르면 첫번째 게시물 제목 변경하기
-        let _changeTitle=[...bordTitle];  //...은 배열방을 깨주는 기능
+        let _changeTitle=[...boardTitle];  //...은 배열방을 깨주는 기능
         _changeTitle[0]='java';           //그리고 0번을 변경
-        setBoredTitle(_changeTitle);
+        setBoardTitle(_changeTitle);
       }}>첫번째 게시물 제목 바꾸기</button>
 
-
-      { show ? <Detail/>:''}  
-     
+                               {/* 변수명={실제값} */}
+      { show ? <Detail   
+      boardTitle={boardTitle} setBoardTitle={setBoardTitle} setTitleIndex={setTitleIndex} />:''}  
+        {/* 이건 자식쪽에 보내주는곳 */}
+   
  
-      
+
 
     </div>
 
